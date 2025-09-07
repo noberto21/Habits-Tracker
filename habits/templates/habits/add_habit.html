@@ -1,0 +1,9 @@
+{% extends "habits/base.html" %}
+{% block content %}
+<h2 class="text-lg font-semibold mb-4">➕ Add Habit</h2>
+<form method="post" class="space-y-3">
+  {% csrf_token %}
+  <input type="text" name="name" placeholder="Habit name" class="border p-2 rounded w-full">
+  <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded-lg">Add</button>
+</form>
+{% endblock %}

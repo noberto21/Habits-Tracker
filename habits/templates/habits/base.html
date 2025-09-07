@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Habit Tracker</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js"></script>
+</head>
+<body class="bg-gray-100 p-6">
+  <div class="max-w-3xl mx-auto bg-white shadow rounded-xl p-6">
+    <div class="flex justify-between items-center mb-6">
+      <h1 class="text-xl font-bold">Habit Tracker</h1>
+      <div>
+        {% if user.is_authenticated %}
+          <span class="mr-2">Hello, {{ user.username }}</span>
+          <a href="{% url 'logout' %}" class="text-red-500">Logout</a>
+        {% else %}
+          <a href="{% url 'login' %}" class="text-blue-500">Login</a>
+          <a href="{% url 'signup' %}" class="ml-4 text-green-500">Signup</a>
+        {% endif %}
+      </div>
+    </div>
+    {% block content %}{% endblock %}
+  </div>
+</body>
+</html>

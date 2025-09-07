@@ -1,0 +1,14 @@
+{% extends "habits/base.html" %}
+{% block content %}
+<h2 class="text-lg font-semibold mb-4">📋 Your Habits</h2>
+<ul>
+  {% for habit in habits %}
+    <li class="mb-2">
+      <a href="{% url 'habit_detail' habit.id %}" class="text-blue-600">{{ habit.name }}</a>
+    </li>
+  {% empty %}
+    <p>No habits yet. <a href="{% url 'add_habit' %}" class="text-green-600">Add one</a></p>
+  {% endfor %}
+</ul>
+<a href="{% url 'add_habit' %}" class="block mt-4 px-4 py-2 bg-green-500 text-white rounded-lg">➕ Add Habit</a>
+{% endblock %}

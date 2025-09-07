@@ -1,0 +1,44 @@
+{% extends "habits/base.html" %}
+{% block content %}
+<h2 class="text-xl font-bold mb-2">{{ habit.name }}</h2>
+<p>🔥 Current streak: {{ current_streak }} days</p>
+<p>🏆 Longest streak: {{ longest_streak }} days</p>
+
+<form method="post" class="my-4">
+  {% csrf_token %}
+  <button name="success" value="true" class="px-4 py-2 bg-green-500 text-white rounded-lg">Mark Success</button>
+  <button name="success" value="false" class="px-4 py-2 bg-red-500 text-white rounded-lg">Mark Failure</button>
+</form>
+
+<h3 class="text-lg font-semibold">📊 Progress Chart</h3>
+<canvas id="habitChart" height="100"></canvas>
+
+<script>
+fetch("{% url 'habit_data' habit.id %}")
+  .then(res => res.json())
+  .then(data => {
+    const labels = data.map(r => r.date);
+    const values = data.map(r => r.success ? 1 : 0);
+    new Chart(document.getElementById("habitChart"), {
+      type: "line",
+      data: {
+        labels: labels,
+        datasets: [{label: "Progress", data: values, borderColor: "blue"}]
+      }
+    });
+  });
+</script>
+
+<h3 class="text-lg font-semibold mt-6">📅 Calendar</h3>
+<div id="calendar" class="mb-6"></div>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  var calendar = new FullCalendar.Calendar(document.getElementById("calendar"), {
+    initialView: "dayGridMonth",
+    height: 500,
+    events: "{% url 'habit_calendar_data' habit.id %}"
+  });
+  calendar.render();
+});
+</script>
+{% endblock %}
